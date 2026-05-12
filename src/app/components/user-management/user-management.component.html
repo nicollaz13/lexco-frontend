@@ -1,0 +1,70 @@
+<p-toolbar styleClass="mb-4">
+    <div class="p-toolbar-group-start">
+        <h2 style="margin: 0;">Gestión de Usuarios</h2>
+    </div>
+    <div class="p-toolbar-group-end">
+        <p-button label="Nuevo Usuario" icon="pi pi-plus" severity="success" (click)="openNew()"></p-button>
+    </div>
+</p-toolbar>
+
+<div class="card">
+    <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <p-tag [value]="user.role" [severity]="user.role === 'ADMIN' ? 'danger' : 'info'"></p-tag>
+                </td>
+                <td>
+                    <p-button 
+                        icon="pi pi-pencil" 
+                        styleClass="p-button-warning"
+                        class="mr-2" 
+                        (click)="editUser(user)">
+                    </p-button>
+
+                    <p-button icon="pi pi-trash" styleClass="p-button-danger" (click)="deleteUser(user)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Detalles de Usuario" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="userForm">
+            <div class="field" style="margin-bottom: 1.5rem;">
+                <label for="name" style="display: block; margin-bottom: 0.5rem;">Nombre</label>
+                <input type="text" pInputText id="name" formControlName="name" />
+            </div>
+            <div class="field" style="margin-bottom: 1.5rem;">
+                <label for="email" style="display: block; margin-bottom: 0.5rem;">Email</label>
+                <input type="text" pInputText id="email" formControlName="email" />
+            </div>
+            <div class="field" style="margin-bottom: 1.5rem;">
+                <label for="role" style="display: block; margin-bottom: 0.5rem;">Rol</label>
+                <input type="text" pInputText id="role" formControlName="role" placeholder="ADMIN o USER" />
+            </div>
+            <div class="field" *ngIf="!isEdit" style="margin-bottom: 1.5rem;">
+                <label for="password" style="display: block; margin-bottom: 0.5rem;">Contraseña</label>
+                <input type="password" pInputText id="password" formControlName="password" />
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Cancelar" icon="pi pi-times" [text]="true" (click)="userDialog = false"></p-button>
+        <p-button label="Guardar" icon="pi pi-check" (click)="saveUser()"></p-button>
+    </ng-template>
+</p-dialog>

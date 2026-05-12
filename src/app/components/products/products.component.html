@@ -1,0 +1,112 @@
+<p-toolbar styleClass="mb-4 gap-2">
+    <div class="p-toolbar-group-start">
+        <i class="pi pi-box mr-2" style="font-size: 1.5rem"></i>
+        <h2 style="margin: 0;">Marketplace</h2>
+
+        <p-button 
+            *ngIf="userRole === 'ADMIN'" 
+            label="Gestionar Usuarios" 
+            icon="pi pi-users" 
+            class="ml-4" 
+            severity="help" 
+            (click)="irAUsuarios()">
+        </p-button>
+    </div>
+    
+    <div class="p-toolbar-group-end">
+        <p-button 
+            icon="pi pi-shopping-cart" 
+            [label]="'Carrito (' + cartCount() + ')'" 
+            class="mr-2" 
+            severity="secondary"
+            (click)="op.toggle($event)"> 
+        </p-button>
+        
+        <p-button 
+            label="Salir" 
+            icon="pi pi-power-off" 
+            severity="danger" 
+            (click)="logout()">
+        </p-button>
+    </div>
+</p-toolbar>
+
+<div class="card">
+    <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th> 
+                <th>Acción</th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.price | currency:'USD' }}</td>
+                <td>
+                    <p-tag 
+                        [value]="getStockStatus(product.stock)" 
+                        [severity]="getSeverity(product.stock)">
+                    </p-tag>
+                </td>
+                <td>
+                    <p-button 
+                        icon="pi pi-cart-plus" 
+                        label="Agregar"
+                        [disabled]="product.stock <= 0"
+                        (click)="addToCart(product)"
+                        severity="success">
+                    </p-button>
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En total hay {{products ? products.length : 0 }} productos. 
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-popover #op>
+    <div style="width: 320px;">
+        <h3 class="mb-3">Tu Carrito</h3>
+        
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            <li *ngFor="let item of cart(); let i = index" 
+                style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
+                
+                <div>
+                    <span style="display: block; font-weight: bold;">{{ item.name }}</span>
+                    <span style="color: #666;">{{ item.price | currency:'USD' }}</span>
+                </div>
+
+                <p-button 
+                    icon="pi pi-trash" 
+                    severity="danger" 
+                    [text]="true" 
+                    (click)="removeFromCart(i)">
+                </p-button>
+            </li>
+        </ul>
+
+        <div *ngIf="cart().length === 0" style="padding: 20px; text-align: center; color: #999;">
+            <i class="pi pi-shopping-cart" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+            El carrito está vacío
+        </div>
+
+        <div *ngIf="cart().length > 0" style="margin-top: 15px; border-top: 2px solid #333; padding-top: 10px;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">
+                <span>Total:</span>
+                <span>{{ cartTotal() | currency:'USD' }}</span>
+            </div>
+            <p-button label="Finalizar Compra" class="w-full" severity="success"></p-button>
+        </div>
+    </div>
+</p-popover>

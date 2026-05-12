@@ -1,0 +1,58 @@
+//estilos para el contenedor principal del login
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5b6b89; 
+}
+//estilos para el contenedor de los campos del formulario
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+//estilos para las etiquetas de los inputs
+.form-field label {
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: white; 
+}
+//estilos para el contenedor del boton
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+//estilos para el titulo de la tarjeta
+:host ::ng-deep .p-card-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: white; 
+  margin-bottom: 40px;
+}
+/* Llave maestra para el fondo de la tarjeta principal */
+:host ::ng-deep .p-card {
+    background-color: #1e293b; 
+    border-radius: 15px; 
+    padding: 10px; 
+}
+//estilos para los inputs
+:host ::ng-deep .p-inputtext {
+    padding: 12px;
+    font-size: 1rem;
+}
+//boton principal
+:host ::ng-deep .p-button {
+    background-color: #10b981; 
+    border: none; 
+    padding: 12px 40px; 
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s; 
+}
+//button hover
+:host ::ng-deep .p-button:not([disabled]):hover {
+    background-color: #059669; 
+}
