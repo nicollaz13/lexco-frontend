@@ -43,4 +43,29 @@ export class AuthService {
   deleteUser(id: number) {
   return this.http.delete(`${this.apiUrl}/users/${id}`, { headers: this.getHeaders() });
   }
+  createProduct(data: any) {
+  return this.http.post(`${this.apiUrl}/products`, data, { headers: this.getHeaders() });
+}
+
+updateProduct(id: number, data: any) {
+  return this.http.put(`${this.apiUrl}/products/${id}`, data, { headers: this.getHeaders() });
+}
+
+deleteProduct(id: number) {
+  return this.http.delete(`${this.apiUrl}/products/${id}`, { headers: this.getHeaders() });
+}
+getProfile() {
+  return this.http.get(`${this.apiUrl}/user-profile`, { headers: this.getHeaders() });
+}
+
+updateProfile(data: any) {
+  return this.http.put(`${this.apiUrl}/user-profile`, data, { headers: this.getHeaders() });
+}
+purchase(data: any) {
+  // Esta función envía el payload (con los items) al backend
+  return this.http.post(`${this.apiUrl}/products/purchase`, data, { 
+    headers: this.getHeaders() 
+  });
+}
+
 }

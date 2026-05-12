@@ -11,6 +11,15 @@
             severity="help" 
             (click)="irAUsuarios()">
         </p-button>
+
+        <p-button 
+            *ngIf="userRole === 'ADMIN'" 
+            label="Nuevo Producto" 
+            icon="pi pi-plus" 
+            class="ml-2" 
+            severity="success" 
+            (click)="openNew()">
+        </p-button>
     </div>
     
     <div class="p-toolbar-group-end">
@@ -55,13 +64,30 @@
                     </p-tag>
                 </td>
                 <td>
-                    <p-button 
-                        icon="pi pi-cart-plus" 
-                        label="Agregar"
-                        [disabled]="product.stock <= 0"
-                        (click)="addToCart(product)"
-                        severity="success">
-                    </p-button>
+                    <div class="flex gap-2">
+                        <p-button 
+                            icon="pi pi-cart-plus" 
+                            label="Agregar"
+                            [disabled]="product.stock <= 0"
+                            (click)="addToCart(product)"
+                            severity="success">
+                        </p-button>
+
+                        <p-button 
+                            *ngIf="userRole === 'ADMIN'"
+                            icon="pi pi-pencil" 
+                            severity="warn" 
+                            [text]="true" 
+                            (click)="editProduct(product)">
+                        </p-button>
+                        <p-button 
+                            *ngIf="userRole === 'ADMIN'"
+                            icon="pi pi-trash" 
+                            severity="danger" 
+                            [text]="true" 
+                            (click)="deleteProduct(product)">
+                        </p-button>
+                    </div>
                 </td>
             </tr>
         </ng-template>
@@ -73,6 +99,34 @@
         </ng-template>
     </p-table>
 </div>
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Detalles del Producto" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="productForm">
+            <div class="field mb-4">
+                <label for="name" class="block mb-2 font-bold">Nombre</label>
+                <input type="text" pInputText id="name" formControlName="name" />
+            </div>
+            <div class="field mb-4">
+                <label for="category" class="block mb-2 font-bold">Categoría</label>
+                <input type="text" pInputText id="category" formControlName="category" />
+            </div>
+            <div class="field mb-4">
+                <label for="price" class="block mb-2 font-bold">Precio</label>
+                <input type="number" pInputText id="price" formControlName="price" />
+            </div>
+            <div class="field mb-4">
+                <label for="stock" class="block mb-2 font-bold">Stock</label>
+                <input type="number" pInputText id="stock" formControlName="stock" />
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Cancelar" icon="pi pi-times" [text]="true" (click)="productDialog = false"></p-button>
+        <p-button label="Guardar" icon="pi pi-check" (click)="saveProduct()"></p-button>
+    </ng-template>
+</p-dialog>
 
 <p-popover #op>
     <div style="width: 320px;">
@@ -106,7 +160,13 @@
                 <span>Total:</span>
                 <span>{{ cartTotal() | currency:'USD' }}</span>
             </div>
-            <p-button label="Finalizar Compra" class="w-full" severity="success"></p-button>
+            
+            <p-button 
+                label="Finalizar Compra" 
+                class="w-full" 
+                severity="success" 
+                (click)="confirmPurchase()">
+            </p-button>
         </div>
     </div>
 </p-popover>

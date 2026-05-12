@@ -1,0 +1,34 @@
+<p-toast></p-toast>
+
+<div class="flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <p-card header="Mi Perfil" subheader="Gestiona tu información personal" [style]="{ width: '400px' }">
+        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="p-fluid">
+            
+            <div class="field mb-4">
+                <label for="name" class="block mb-2 font-bold">Nombre Completo</label>
+                <input id="name" type="text" pInputText formControlName="name" />
+            </div>
+
+            <div class="field mb-4">
+                <label for="email" class="block mb-2 font-bold">Correo Electrónico</label>
+                <input id="email" type="text" pInputText formControlName="email" />
+                <small class="text-secondary">El email no se puede modificar.</small>
+            </div>
+
+            <div class="field mb-4">
+                <label for="role" class="block mb-2 font-bold">Rol asignado</label>
+                <input id="role" type="text" pInputText formControlName="role" />
+            </div>
+
+            <div class="mt-4">
+                <p-button 
+                    label="Actualizar Datos" 
+                    icon="pi pi-save" 
+                    type="submit" 
+                    [loading]="loading"
+                    [disabled]="profileForm.invalid">
+                </p-button>
+            </div>
+        </form>
+    </p-card>
+</div>
