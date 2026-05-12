@@ -1,59 +1,63 @@
-# LexcoFrontend
+Marketplace Pro - Prueba Técnica
+Desarrollador: Nicolas Hernandez
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+Fecha: Mayo 2026
 
-## Development server
+Este sistema es una solución Fullstack para la gestión de productos y usuarios, construida con una arquitectura modular y segura.
 
-To start a local development server, run:
+🚀 Tecnologías Utilizadas
+Backend (Laravel 11)
+Autenticación: Laravel Sanctum (Tokens y Cookies HttpOnly).
 
-```bash
+Base de Datos: PostgreSQL.
+
+Seguridad: Middlewares personalizados para Roles (Admin/User) y Límite de Sesiones (Máx. 2).
+
+Arquitectura: Rutas modulares (auth.php, products.php, user.php).
+
+Frontend (Angular 21)
+UI Framework: PrimeNG (Tablas, Diálogos, Popovers, Toolbars).
+
+Estado: Angular Signals para la gestión reactiva del carrito.
+
+Seguridad: Guards de Autenticación y de Roles.
+Backend
+# Entrar a la carpeta
+cd lexco-backend
+
+# Instalar dependencias
+composer install
+
+# Configurar entorno
+cp .env.example .env
+php artisan key:generate
+
+# Configurar Base de Datos en .env (PostgreSQL)
+# DB_CONNECTION=pgsql
+# DB_DATABASE=tu_base_de_datos
+
+# Ejecutar migraciones y seeders
+php artisan migrate --seed
+2. Frontend (Angular)
+# Entrar a la carpeta
+cd lexco-frontend
+
+# Instalar dependencias
+npm install
+
+# Iniciar servidor de desarrollo
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Credenciales de Prueba
+Lógica de Roles: El primer usuario que se registre será automáticamente ADMIN. Los siguientes serán USER.
 
-## Code scaffolding
+Límite de Sesiones: El sistema permite máximo 2 sesiones activas simultáneamente.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Estructura de Rutas Modular
+Se implementó una división de rutas para mejorar la mantenibilidad:
 
-```bash
-ng generate component component-name
-```
+/api/auth: Registro, Login y Perfil.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+/api/products: CRUD de productos y lógica de compra con descuento de stock.
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+/api/users: Gestión de usuarios (Solo Admin).
